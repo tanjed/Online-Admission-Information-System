@@ -13,13 +13,16 @@
 
 
 //Student Routes
+Route::group(['middleware' => 'student-auth'],function (){
+    Route::get('/student/logout','LoginController@studentLogout')->name('student.logout');
+});
 Route::get('/signin','LoginController@showStudentLogin')->name('student.signin.show');
 Route::post('/signin','LoginController@processStudentLogin')->name('student.signin');
 
 Route::get('/signup','RegistrationController@showStudentRegistration')->name('student.signup.show');
 Route::post('/signup','RegistrationController@processStudentRegistration')->name('student.signup');
 
-Route::get('/student/logout','LoginController@studentLogout')->name('student.logout');
+
 
 
 
@@ -43,31 +46,36 @@ Route::post('/admin/signup','RegistrationController@processAdminRegistration')->
 
 
 //University Route
+Route::group(['middleware' => 'university-auth'],function (){
+
+    Route::get('/university/dashboard','UniversityUseController@manageDash')->name('university.dashboard');
+    Route::post('/university/update','UniversityUseController@updateInfo')->name('university.update');
+    Route::get('/university/createDepartment','UniversityUseController@createDept')->name('university.createDepartment');
+    Route::get('/university/createProgram','UniversityUseController@createProgram')->name('university.createProgram');
+    Route::get('/university/showProgram/{id}','UniversityUseController@showProgram');
+    Route::get('/university/logout','LoginController@universityLogout')->name('university.logout');
+
+});
 Route::get('/university/signup','RegistrationController@showUniversityRegistration')->name('university.signup.show');
 Route::post('/university/signup','RegistrationController@processUniversityRegistration')->name('university.signup');
 
 Route::get('/university/signin','LoginController@showUniversityLogin')->name('university.signin.show');
 Route::post('/university/signin','LoginController@processUniversityLogin')->name('university.signin');
 
-Route::get('/university/dashboard','UniversityUseController@manageDash')->name('university.dashboard');
-Route::post('/university/update','UniversityUseController@updateInfo')->name('university.update');
-Route::get('/university/createDepartment','UniversityUseController@createDept')->name('university.createDepartment');
-Route::get('/university/createProgram','UniversityUseController@createProgram')->name('university.createProgram');
-Route::get('/university/showProgram/{id}','UniversityUseController@showProgram');
 
-
-Route::get('/university/logout','LoginController@universityLogout')->name('university.logout');
 
 
 //Index Route
 Route::get('/','IndexUseController@showIndex')->name('index');
 Route::get('/universityList/{status}','IndexUseController@showUniversityList');
 Route::get('/university/{id}/details','IndexUseController@showUniversityDetails');
-Route::get('/search','IndexUseController@search');
+Route::get('/search','SearchUseController@showSearch');
+Route::get('/search/result','SearchUseController@searchResult');
 
 //Blog Route
 Route::get('/blog/timeline','BlogUseController@showBlog')->name('blog.timeline');
 Route::post('/blog/createpost','BlogUseController@createPost');
 Route::get('/blog/post/{id}','BlogUseController@postDescription')->name('post.description');
 Route::post('/blog/{id}/comment','BlogUseController@postComment');
+Route::get('/blog/search','BlogUseController@searchPost');
 

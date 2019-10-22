@@ -18,7 +18,5 @@ class IndexUseController extends Controller
         $university = University::with('departments.programs')->find($id);
        return view('system.university_description',compact('university'));
     }
-    public function  search(){
-        return view('system.search');
-    }
+
 }

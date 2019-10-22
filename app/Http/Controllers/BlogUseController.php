@@ -46,4 +46,8 @@ class BlogUseController extends Controller
        }
        return redirect('/blog/post/'.$id);
    }
+   public function searchPost(Request $request){
+       $blog_posts = Post::where('post_title','like','%'.$request->search.'%')->paginate(10);
+       return view('blog.blog_post',compact('blog_posts'));
+   }
 }

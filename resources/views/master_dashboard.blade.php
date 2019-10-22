@@ -45,9 +45,9 @@
     </svg>
 </div>
 
-@include('header')
+
 @yield('content')
-@include('footer')
+
 
 
 <script src="{{ URL::to('dashboard/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
