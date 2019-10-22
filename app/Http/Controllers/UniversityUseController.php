@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\Program;
 use App\University;
+use App\Waiver;
 use Illuminate\Http\Request;
 
 class UniversityUseController extends Controller
 {
     public function manageDash(){
-        $all_departments = Department::where('university_id',auth('university')->user()->id)->get();
+        $all_departments = Department::with('programs')->where('university_id',auth('university')->user()->id)->get();
         $departments = Department::where('university_id',auth('university')->user()->id)->paginate(3);
+
         return view('university.dashboard',compact('departments','all_departments'));
     }
     public function createDept(Request $request){
@@ -60,6 +62,12 @@ class UniversityUseController extends Controller
     public function showProgram($id){
         $programs = Program::where('department_id',$id)->get();
        return  $programs;
+    }
+    public function addWaiver(Request $request){
+       Waiver::updateOrCreate(
+           ['program_id' =>$request->program_id, 'range' =>$request->range ],['percentage' => $request->percentage]
+       );
+       return redirect(route('university.dashboard'));
     }
 
 }

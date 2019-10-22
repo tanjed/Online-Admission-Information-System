@@ -51,6 +51,7 @@
                return program.id == program_id;
             });
 
+
             if (program) set_program_info(program);
         });
         
@@ -77,6 +78,9 @@
         }
 
         function set_program_info(program) {
+           for (var i = 0; i<program.waivers.length; i++){
+               $('#waiver').append('<tr><td>'+program.waivers[i].range+'</td><td>'+program.waivers[i].percentage+'%</td></tr>');
+           }
             $('#program_credit').html(program.credit);
             $('#program_cost').html(program.cost);
         }

@@ -59,7 +59,7 @@
                 <!-- .row -->
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-md-6">
-                        <div class="white-box analytics-info text-center" style="min-height:345px;">
+                        <div class="white-box analytics-info text-center" style="min-height:400px;">
                             <button class="btn btn-success" data-toggle="collapse" data-target="#update">Update Information</button>
                             <button class="btn btn-success" data-toggle="collapse" data-target="#createDept">Create Department</button>
                             <button class="btn btn-success" data-toggle="collapse" data-target="#createCourse">Create Program</button>
@@ -142,8 +142,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="white-box analytics-info ">
+                    <div class="col-md-6" >
+                        <div class="white-box analytics-info" style="min-height:400px;">
                             <table class="table table-bordered text-center">
                                 <thead>
                                 <tr>
@@ -167,7 +167,7 @@
                 <!-- /.row -->
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="white-box analytics-info ">
+                        <div class="white-box analytics-info " style="min-height:300px;">
                             <b class="list-group-item"> Department Name: <span id="dept_name"></span></b> <br>
                             <table class="table table-bordered">
                                 <thead>
@@ -183,109 +183,38 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="white-box analytics-info ">
+                        <div class="white-box analytics-info " style="min-height:300px;">
                             <b class="list-group-item">Course: <span id="course_name"></span></b>
                             <b class="list-group-item">Credit: <span id="course_credit"></span>Credit </b>
                             <b class="list-group-item">Cost: <span id="course_cost"></span>Taka </b>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="white-box analytics-info ">
-                            <table class="table table-striped table-condensed table-teal" style="font-size: 11px">
-                                <tbody>
-                                <tr>
-                                    <th>Marks</th>
-                                    <th>Grade</th>
-                                    <th>Grade Point</th>
-                                    <th>Remarks</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>80-100%</div>
-                                    </td>
-                                    <td>A +</td>
-                                    <td>4.00</td>
-                                    <td>Outstanding</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>75-79%</div>
-                                    </td>
-                                    <td>A</td>
-                                    <td>3.75</td>
-                                    <td><span class="style6">Excellent</span></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>70-74%</div>
-                                    </td>
-                                    <td>A-</td>
-                                    <td>3.50</td>
-                                    <td>Very Good</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>65-69%</div>
-                                    </td>
-                                    <td>B+</td>
-                                    <td>3.25</td>
-                                    <td>Good</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>60-64%</div>
-                                    </td>
-                                    <td>B</td>
-                                    <td>3.00</td>
-                                    <td>Satisfactory</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>55-59%</div>
-                                    </td>
-                                    <td>B-</td>
-                                    <td>2.75</td>
-                                    <td>Above Average</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>50-54%</div>
-                                    </td>
-                                    <td>C+</td>
-                                    <td>2.50</td>
-                                    <td>Average</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>45-49%</div>
-                                    </td>
-                                    <td>C</td>
-                                    <td>2.25</td>
-                                    <td>Bellow Average</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>40-44%</div>
-                                    </td>
-                                    <td>D</td>
-                                    <td>2.00</td>
-                                    <td>Pass</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div>00-39%</div>
-                                    </td>
-                                    <td>F</td>
-                                    <td>0.00</td>
-                                    <td>Fail</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" style="font-size: 12px; color: #E65100">
-                                        <div align="center">Effective from Summer Semester 2007</div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="white-box analytics-info" style="min-height:300px;">
+                            <div class="row">
+                                <center><b>Input Weiver Information</b></center>
+                            </div>
+                            <div class="row">
+                                <form action="{{URL::to('/university/waiver/update')}}" method="post">
+                                    {{csrf_field()}}
+                                    <div class="form-group">
+                                        <select name="program_id" class="form-control" required>
+                                            @foreach ($all_departments as $department){
+                                                @foreach ($department->programs as $program){
+                                                    <option value="{{$program->id}}">{{$program->name}}</option>
+                                                @endforeach
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="range" placeholder="Range" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="percentage" placeholder="Percent" required>
+                                    </div>
+                                   <center> <button class="btn btn-success" type="submit">Add</button></center>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -53,6 +53,7 @@ Route::group(['middleware' => 'university-auth'],function (){
     Route::get('/university/createDepartment','UniversityUseController@createDept')->name('university.createDepartment');
     Route::get('/university/createProgram','UniversityUseController@createProgram')->name('university.createProgram');
     Route::get('/university/showProgram/{id}','UniversityUseController@showProgram');
+    Route::post('/university/waiver/update','UniversityUseController@addWaiver');
     Route::get('/university/logout','LoginController@universityLogout')->name('university.logout');
 
 });
