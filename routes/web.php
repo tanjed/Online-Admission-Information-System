@@ -72,6 +72,8 @@ Route::get('/universityList/{status}','IndexUseController@showUniversityList');
 Route::get('/university/{id}/details','IndexUseController@showUniversityDetails');
 Route::get('/search','SearchUseController@showSearch');
 Route::get('/search/result','SearchUseController@searchResult');
+Route::get('/compare','SearchUseController@compare');
+Route::get('/compare/result','SearchUseController@compareResult');
 
 //Blog Route
 Route::get('/blog/timeline','BlogUseController@showBlog')->name('blog.timeline');

@@ -16,7 +16,7 @@
                <ul class="list-group">
                    @foreach($searchResult as $result)
 
-                   <a href="{{URL::to('/university/'.$result->id.'/details')}}" class="list-group-item list-group-item-action">
+                   <a href="{{URL::to('/university/'.$result->department->university->id.'/details')}}" class="list-group-item list-group-item-action">
                        <span>{{$result->name}}</span><br>
                        <span>{{$result->department->university->name}}</span><br>
                        <span>Cost: {{$result->cost}}/-</span><br>

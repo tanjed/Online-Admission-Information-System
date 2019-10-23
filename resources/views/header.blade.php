@@ -7,6 +7,9 @@
         <li class="nav-item" >
             <a href="{{URL::to('/search')}}" class="nav-link text-light" style="">Search</a>
         </li>
+        <li class="nav-item" >
+            <a href="{{URL::to('/compare')}}" class="nav-link text-light" style="">Compare</a>
+        </li>
 
         @auth
         <li class="nav-item" style="margin-left: 70%">

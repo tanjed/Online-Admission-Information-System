@@ -15,6 +15,7 @@ class IndexUseController extends Controller
         return view('system.university_list',compact('universities'));
     }
     public function showUniversityDetails($id){
+
         $university = University::with('departments.programs.waivers')->find($id);
        return view('system.university_description',compact('university'));
     }

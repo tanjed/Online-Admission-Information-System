@@ -75,6 +75,7 @@
         function unset_program_info() {
             $('#program_credit').html('');
             $('#program_cost').html('');
+            $('#waiver').empty();
         }
 
         function set_program_info(program) {
