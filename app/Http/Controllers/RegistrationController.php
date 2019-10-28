@@ -48,26 +48,31 @@ class RegistrationController extends Controller
             'status' => 'required',
         ]);
 
-       $isAvailable = count(AdminUniversity::where('email',$request->email)->where('create_status',0)->get());
-       if($isAvailable){
-           AdminUniversity::where('email',$request->email)->update(['create_status' => 1]);
-           try{
-               $admin = University::create([
-                   'name' => $request['name'],
-                   'email' => $request['email'],
-                   'password' => bcrypt($request['password']),
-                   'status' => $request['status']
-               ]);
+       $isAvailable = AdminUniversity::where('email',$request->email)->where('create_status',0)->first();
+       if(!empty($isAvailable)){
+          if($isAvailable->name != $request->name ){
+              return back()->withErrors(['msg' => 'Information Mismatched']);
+          }else{
+              AdminUniversity::where('email',$request->email)->update(['create_status' => 1]);
+              try{
+                  $admin = University::create([
+                      'name' => $request['name'],
+                      'email' => $request['email'],
+                      'password' => bcrypt($request['password']),
+                      'status' => $request['status'],
+                      'email_verification_token' => rand(10,10000)
+                  ]);
 
-               auth('university')->login($admin);
+                  auth('university')->login($admin);
 
-               AdminUniversity::where('email',$request->email)->update(['create_status'=> 1]);
+                  AdminUniversity::where('email',$request->email)->update(['create_status'=> 1]);
 
-               return redirect()->to(route('university.dashboard'));
+                  return redirect()->to(route('university.dashboard'));
 
-           }catch (Exception $e){
-               return back()->withErrors(['msg' => 'Something Went Wrong!']);
-           }
+              }catch (Exception $e){
+                  return back()->withErrors(['msg' => 'Something Went Wrong!']);
+              }
+          }
        }else{
            return back()->withErrors(['msg' => 'You are not allowed to Register']);
        }
@@ -84,6 +89,7 @@ class RegistrationController extends Controller
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => bcrypt($request['password']),
+                'email_verification_token' => rand(10,10000)
             ]);
 
             auth('student')->login($admin);

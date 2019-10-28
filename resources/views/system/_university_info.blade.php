@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <td>Website</td>
-                <td>{{$university->website}}</td>
+                <td><a href="https://{{$university->website}}" target="_blank">{{$university->website}}</a></td>
             </tr>
             </tbody>
         </table>

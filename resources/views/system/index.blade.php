@@ -20,6 +20,15 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <a href="{{URL::to('/universityList/privateMedical')}}">
+                        <div class="jumbotron" style="margin: 10px;cursor: pointer;background: none;border:1px solid green">
+                            <h1 class="text-center">Private Medical</h1>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <small style="margin: 10px;color: red">* select one to continue</small>
                 </div>
             </div>

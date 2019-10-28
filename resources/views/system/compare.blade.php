@@ -8,10 +8,13 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="search" placeholder="Search">
                     </div>
-                </form>
-                <div id="result" style="min-height: 5px;position: relative;top: -20px;left: 0px;background:#EAEEF2;padding: 10px;display: none">
+                    <div class="input-group mb-3">
+                        <select class="form-control" id="programs">
 
-                </div>
+                        </select>
+                    </div>
+                </form>
+                <div id="result" style="min-height: 5px;position: relative;top: -20px;left: 0px;background:#EAEEF2;padding: 10px;display: none;z-index: 1; "></div>
                 <span class="text-danger"><small>* Select maximam 3 university</small></span>
             </div>
         </div>
@@ -24,13 +27,16 @@
                         <td style="padding: 37px;">University Name</td>
                     </tr>
                     <tr>
-                        <td>Established Year</td>
+                        <td>Program Name</td>
                     </tr>
                     <tr>
-                        <td>Total Departments</td>
+                        <td>Total Credit</td>
                     </tr>
                     <tr>
-                        <td>Email</td>
+                        <td>Total Semester</td>
+                    </tr>
+                    <tr>
+                        <td>Cost</td>
                     </tr>
                     </tbody>
                 </table>
@@ -62,38 +68,75 @@
 
 <script>
     let universities,length,table_no = 0;
+
+    let departments = [],all_programs =[] ;
     $("#search").keyup(function (event) {
+        $("#programs").html('');
         if (event.keyCode == 8 || event.keyCode == 46) {
             $("#result").empty();
         }
          sendData($(this).val());
     });
-    function setData(id){
+
+    $("#programs").change(function () {
+       let program_id =  $(this).val();
+       let programs = get_program(program_id);
+       setData(programs);
+
+    });
+
+    function setData(program) {
+        let query =   '<tr>'+
+            '<td style="padding: 25px;">'+$('#search').val()+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>'+program.name+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>'+program.credit+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>'+program.total_semester+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>'+program.cost+'/- </td>'+
+            '</tr>';
+        if(table_no == 0){
+            $('#table1').append(query);
+        }else if(table_no == 1){
+            $('#table2').append(query);
+        }else{
+            $('#table3').append(query);
+        }
+        table_no++;
+    }
+
+    function get_program(id) {
+        for (let i = 0; i<all_programs.length; i++){
+            if(all_programs[i].id == id){
+                return all_programs[i];
+            }
+        }
+    }
+
+
+    function findData(id){
+
+        $("#result").empty();
+        $("#result").hide();
+
+
       let university =  universities.find(function (university) {
            return university.id == id;
        });
-       let department_number = Object.keys(university.departments).length;
-
-      let query =   '<tr>'+
-                        '<td style="padding: 25px;">'+university.name+'</td>'+
-                    '</tr>'+
-                    '<tr>'+
-                         '<td>'+university.established_year+'</td>'+
-                    '</tr>'+
-                    '<tr>'+
-                         '<td>'+department_number+'</td>'+
-                    '</tr>'+
-                    '<tr>'+
-                        '<td>'+university.email+'</td>'+
-                    '</tr>';
-       if(table_no == 0){
-          $('#table1').append(query);
-       }else if(table_no == 1){
-           $('#table2').append(query);
-       }else{
-           $('#table3').append(query);
-       }
-        table_no++;
+        $("#search").val(university.name);
+        $('#programs').append('<option>Choose Program</option>');
+        for (let i = 0; i< university.departments.length; i++){
+            for (let j = 0; j<university.departments[i].programs.length; j++){
+                $('#programs').append(`<option value="${university.departments[i].programs[j].id}"> ${university.departments[i].programs[j].name}</option>`);
+                all_programs.push(university.departments[i].programs[j]);
+            }
+        }
     }
 
    function sendData(input_value) {
@@ -109,7 +152,7 @@
           universities = JSON.parse(msg);
           length = Object.keys(universities).length;
            for (let i = 0; i<length; i++) {
-               $("#result").append('<a class="list-group" onclick="setData('+universities[i].id+')" style="cursor: pointer">'+universities[i].name+'</a>');
+               $("#result").append('<a class="list-group" onclick="findData('+universities[i].id+')" style="cursor: pointer">'+universities[i].name+'</a>');
            }
        });
 

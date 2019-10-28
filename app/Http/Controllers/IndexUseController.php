@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notice;
 use App\University;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,12 @@ class IndexUseController extends Controller
     public function showUniversityDetails($id){
 
         $university = University::with('departments.programs.waivers')->find($id);
-       return view('system.university_description',compact('university'));
+        $university_notices = Notice::where('university_id',$id)->paginate(3);
+       return view('system.university_description',compact('university','university_notices'));
     }
+     public function showNotice($id){
+        $notice = Notice::find($id);
+        return view('system.notice',compact('notice'));
+     }
 
 }

@@ -30,6 +30,7 @@
                         <select class="form-control" id="sel1" name="status">
                             <option value="public" >Public</option>
                             <option value="private">Private</option>
+                            <option value="privateMedical">Private Medical</option>
                         </select>
                     </div>
 

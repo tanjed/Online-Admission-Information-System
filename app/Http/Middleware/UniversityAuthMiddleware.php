@@ -18,6 +18,11 @@ class UniversityAuthMiddleware
         if(!auth('university')->check()){
             return redirect(route('university.signin.show'));
         }
+//        else{
+//           if(!auth('university')->user()->email_verified){
+//               return redirect(route('show.verification'));
+//           }
+//        }
         return $next($request);
     }
 }

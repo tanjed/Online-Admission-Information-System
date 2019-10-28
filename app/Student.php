@@ -8,8 +8,8 @@ class Student extends Authenticatable
 {
     use Notifiable;
     protected $hidden = ['password'];
-
-   public function posts(){
+    protected $guarded = ['id'];
+    public function posts(){
        return $this->hasMany(Post::class);
-   }
+    }
 }

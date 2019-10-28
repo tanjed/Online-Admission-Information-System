@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProgramsTable extends Migration
+class CreateNoticesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateProgramsTable extends Migration
      */
     public function up()
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('notices', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('department_id')->unsigned();
-            $table->string('name');
-            $table->integer('credit');
-            $table->integer('cost');
-            $table->integer('total_semester');
-            $table->integer('semester_duration');
+            $table->integer('university_id')->unsigned();
+            $table->string('notice_title');
+            $table->text('notice_body');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateProgramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('notices');
     }
 }

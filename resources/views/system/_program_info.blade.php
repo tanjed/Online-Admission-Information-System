@@ -27,6 +27,14 @@
                 <td>Cost</td>
                 <td id="program_cost"></td>
             </tr>
+            <tr>
+                <td>Total Semester</td>
+                <td id="total_semester"></td>
+            </tr>
+            <tr>
+                <td>Semester Duration</td>
+                <td id="semester_duration"></td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -84,6 +92,8 @@
            }
             $('#program_credit').html(program.credit);
             $('#program_cost').html(program.cost);
+            $('#total_semester').html(program.total_semester);
+            $('#semester_duration').html(program.semester_duration);
         }
     </script>
 @endpush

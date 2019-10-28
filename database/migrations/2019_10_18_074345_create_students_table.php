@@ -18,6 +18,8 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('email_verification_token')->nullable();
+            $table->integer('email_verified')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

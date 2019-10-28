@@ -13,4 +13,7 @@ class University extends Authenticatable
      public function departments(){
          return $this->hasMany(Department::class);
      }
+     public function notices(){
+         return $this->hasMany(Notice::class);
+     }
 }

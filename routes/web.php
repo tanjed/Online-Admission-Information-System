@@ -43,6 +43,8 @@ Route::post('/admin/signin','LoginController@processAdminLogin')->name('admin.si
 Route::get('/admin/signup','RegistrationController@showAdminRegistration')->name('admin.signup.show');
 Route::post('/admin/signup','RegistrationController@processAdminRegistration')->name('admin.signup');
 
+Route::get('/sendMail', 'MailController@sendMail');
+
 
 
 //University Route
@@ -54,15 +56,19 @@ Route::group(['middleware' => 'university-auth'],function (){
     Route::get('/university/createProgram','UniversityUseController@createProgram')->name('university.createProgram');
     Route::get('/university/showProgram/{id}','UniversityUseController@showProgram');
     Route::post('/university/waiver/update','UniversityUseController@addWaiver');
-    Route::get('/university/logout','LoginController@universityLogout')->name('university.logout');
-
+    Route::get('/university/delete/{section}/{id}','UniversityUseController@deleteSection');
+    Route::post('/university/upload/cover','UniversityUseController@uploadCover')->name('upload.cover');
+    Route::post('/university/create/notice','UniversityUseController@createNotice')->name('create.notice');
 });
+Route::get('/university/logout','LoginController@universityLogout')->name('university.logout');
 Route::get('/university/signup','RegistrationController@showUniversityRegistration')->name('university.signup.show');
 Route::post('/university/signup','RegistrationController@processUniversityRegistration')->name('university.signup');
 
 Route::get('/university/signin','LoginController@showUniversityLogin')->name('university.signin.show');
 Route::post('/university/signin','LoginController@processUniversityLogin')->name('university.signin');
 
+Route::get('/university/verify','MailController@showVerification')->name('show.verification');
+Route::post('/university/verify','MailController@processVerification')->name('process.verification');
 
 
 
@@ -74,6 +80,7 @@ Route::get('/search','SearchUseController@showSearch');
 Route::get('/search/result','SearchUseController@searchResult');
 Route::get('/compare','SearchUseController@compare');
 Route::get('/compare/result','SearchUseController@compareResult');
+Route::get('/university/notice/{id}','IndexUseController@showNotice');
 
 //Blog Route
 Route::get('/blog/timeline','BlogUseController@showBlog')->name('blog.timeline');

@@ -23,6 +23,9 @@ class CreateUniversitiesTable extends Migration
             $table->text('address')->nullable();
             $table->string('established_year')->nullable();
             $table->string('website')->nullable();
+            $table->string('email_verification_token')->nullable();
+            $table->integer('email_verified')->default(0);
+            $table->text('image_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
 

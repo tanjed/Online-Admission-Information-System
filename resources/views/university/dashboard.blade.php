@@ -63,6 +63,7 @@
                             <button class="btn btn-success" data-toggle="collapse" data-target="#update">Update Information</button>
                             <button class="btn btn-success" data-toggle="collapse" data-target="#createDept">Create Department</button>
                             <button class="btn btn-success" data-toggle="collapse" data-target="#createCourse">Create Program</button>
+                            <button class="btn btn-success" data-toggle="collapse" data-target="#addnotice">Add Notice</button>
                             @if(!empty($errors))
                                 <div class="error-log" style="margin-top:5px;">
                                     @foreach($errors->all() as $error)
@@ -70,20 +71,40 @@
                                     @endforeach
                                 </div>
                             @endif
+                            <div id="addnotice" class="collapse">
+                                <form action="{{URL::to(route('create.notice'))}}" style="margin-top: 20px;" method="post">
+                                    {{csrf_field()}}
+                                    <div class="form-group">
+                                        <input type="text" class="form-control"  name="notice_title" placeholder="Notice Title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="5" name="notice_body" placeholder="Notice Body" required></textarea>
+                                    </div>
+                                    <button class="btn btn-danger" type="submit">Add</button>
+                                </form>
+                            </div>
+
                             <div id="createCourse" class="collapse">
                                 <form action="{{route('university.createProgram')}}" method="get" style="margin-top: 20px;">
                                     {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="usr" name="coursename" placeholder="Course Name">
+                                                <input type="text" class="form-control"  name="coursename" placeholder="Course Name">
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="usr" name="credit" placeholder="Credit">
+                                                <input type="text" class="form-control"  name="credit" placeholder="Credit">
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="usr" name="cost" placeholder="Cost">
+                                                <input type="text" class="form-control"  name="cost" placeholder="Cost">
                                             </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"  name="total_semester" placeholder="Total Semester">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"  name="semester_duration" placeholder="Semester Duration">
+                                            </div>
+
                                             <div class="form-group">
                                                 <select class="form-control" name="department">
                                                     @foreach($all_departments as $department)
@@ -103,24 +124,24 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="year" placeholder="Established Year">
+                                                <input type="text" class="form-control" name="year" placeholder="Established Year" value="{{$university->established_year}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control"  name="address" placeholder="Address">
+                                                <input type="text" class="form-control"  name="address" placeholder="Address" value="{{$university->address}}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="phone" placeholder="Phone">
+                                                <input type="text" class="form-control" name="phone" placeholder="Phone" value="{{$university->phone}}">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input type="text" class="form-control"  name="website" placeholder="Website">
+                                                <input type="text" class="form-control"  name="website" placeholder="Website" value="{{$university->website}}">
                                             </div>
                                             <button class="btn btn-danger" type="submit">Update</button>
                                         </div>
@@ -148,17 +169,54 @@
                                 <thead>
                                 <tr>
                                     <th style="text-align: center">Departments</th>
+                                    <th style="text-align: center">Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($departments as $department)
                                 <tr>
                                     <td><a style="cursor: pointer"  onclick="showList({{$department->id}},'{{$department->name}}')">{{$department->name}}</a></td>
+                                    <td>
+                                        <button class="btn btn-lg btn-danger badge"  onclick="deleteData('department',{{$department->id}})">
+                                            <span> <i class="fa fa-trash" aria-hidden="true"></i></span>
+                                        </button>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                             {{$departments->links()}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="white-box">
+                           <div class="row">
+                               <div class="col-md-6 text-center" style="margin-top: 30px;">Upload University Cover Photo</div>
+                               <div class="col-md-6">
+                                   @if ($message = Session::get('success'))
+                                       <div class="alert alert-success alert-block" style="margin-bottom: 5px;">
+                                           <button type="button" class="close" data-dismiss="alert">×</button>
+                                           <strong>{{ $message }}</strong>
+                                       </div>
+                                   @endif
+                                       @if ($message = Session::get('error'))
+                                           <div class="alert alert-success alert-block" style="margin-bottom: 5px;">
+                                               <button type="button" class="close" data-dismiss="alert">×</button>
+                                               <strong>{{ $message }}</strong>
+                                           </div>
+                                       @endif
+                                   <form action="{{URL::to(route('upload.cover'))}}" method="POST" enctype="multipart/form-data">
+                                       {{csrf_field()}}
+                                       <div class="form-group">
+                                           <input type="file" class="form-control-file border" name="image" required>
+                                       </div>
+                                       <button type="submit" class="btn btn-primary">Submit</button>
+                                   </form>
+                               </div>
+                           </div>
                         </div>
                     </div>
                 </div>
@@ -168,14 +226,15 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="white-box analytics-info " style="min-height:300px;">
-                            <b class="list-group-item"> Department Name: <span id="dept_name"></span></b> <br>
+                            <b class="list-group-item" style = "text-align: center"> Department Name: <span id="dept_name"></span></b> <br>
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Programs</th>
+                                    <th style = "text-align: center">Programs</th>
+                                    <th style = "text-align: center" >Delete</th>
                                 </tr>
                                 </thead>
-                                <tbody id="program_list">
+                                <tbody id="program_list" style = "text-align: center">
 
 
                                 </tbody>
@@ -186,7 +245,9 @@
                         <div class="white-box analytics-info " style="min-height:300px;">
                             <b class="list-group-item">Course: <span id="course_name"></span></b>
                             <b class="list-group-item">Credit: <span id="course_credit"></span>Credit </b>
-                            <b class="list-group-item">Cost: <span id="course_cost"></span>Taka </b>
+                            <b class="list-group-item">Cost: <span id="course_cost"></span> Taka </b>
+                            <b class="list-group-item">Total Semester: <span id="total_semester"></span></b>
+                            <b class="list-group-item">Semester Duration: <span id="semester_duration"></span> Month/Semester </b>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -218,9 +279,38 @@
                         </div>
                     </div>
                 </div>
+
+
+                ///Notice board
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="white-box">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style = "text-align: center;width: 80%">Notice</th>
+                                    <th style = "text-align: center" >Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody id="notice_list" style = "text-align: center">
+                                @foreach($notices as $notice)
+                                    <tr>
+                                        <td>{{$notice->notice_title}}</td>
+                                        <td>
+                                            <button class="btn btn-lg btn-danger badge"  onclick="deleteData('notice',{{$notice->id}})">
+                                                <span> <i class="fa fa-trash" aria-hidden="true"></i></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /.container-fluid -->
-            <footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by wrappixel.com </footer>
+            <footer class="footer text-center"> &copy; 2019</footer>
         </div>
         <!-- ============================================================== -->
         <!-- End Page Content -->
@@ -228,6 +318,7 @@
     </div>
     <script>
         let data;
+        let program = "program";
         function showList(id,name) {
             $('#program_list').empty();
 
@@ -241,7 +332,9 @@
             request.done(function( msg ) {
                 data = msg;
                 for (const key of Object.keys(msg)) {
-                    $('#program_list').append('<tr style="cursor: pointer;"><td onclick="showProgramDetails('+msg[key].id+')">'+msg[key].name+'</td></tr>');
+                    $('#program_list').append('<tr style="cursor: pointer;"><td onclick="showProgramDetails('+msg[key].id+')">'+msg[key].name+'</td>'
+                        +'<td><button class="btn btn-lg btn-danger badge"  onclick="deleteData('+program+','+msg[key].id+')">'
+                        + '<span> <i class="fa fa-trash" aria-hidden="true"></i></span>'+'</button></td>' +'</tr>');
                 }
             });
 
@@ -255,8 +348,23 @@
                    $('#course_name').html(data[key].name);
                    $('#course_cost').html(data[key].cost);
                    $('#course_credit').html(data[key].credit);
+                   $('#total_semester').html(data[key].total_semester);
+                   $('#semester_duration').html(data[key].semester_duration);
                }
             }
+        }
+
+        function deleteData(section,id) {
+
+            let url = "/university/delete/"+section+"/"+id;
+            $.ajax({
+                url: url,
+                method: "Get",
+                success:function (response) {
+                   setTimeout(function(){ location.reload(); }, 100);
+                }
+            });
+
         }
     </script>
 @stop

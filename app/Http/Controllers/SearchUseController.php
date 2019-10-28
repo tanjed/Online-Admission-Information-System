@@ -20,7 +20,7 @@ class SearchUseController extends Controller
         return view('system.compare');
     }
     public function compareResult(Request $request){
-        $universities = University::with('departments')->where('name','like','%'.$request->name.'%')->get();
+        $universities = University::with('departments.programs')->where('name','like','%'.$request->name.'%')->get();
         return json_encode($universities);
     }
 }
